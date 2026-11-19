@@ -1,0 +1,8 @@
+{
+  "name": "@palimpsest/crew",
+  "version": "0.0.0",
+  "type": "module",
+  "license": "MIT",
+  "private": true,
+  "dependencies": { "@palimpsest/core": "*" }
+}

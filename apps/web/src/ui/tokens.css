@@ -1,0 +1,51 @@
+/* Illuminated Codex design tokens. Source: .kiro/steering/art-direction.md
+   and the design canvas https://claude.ai/artifact/JH8SvA8MKrSyeW62ZzcoHA */
+:root {
+  /* surfaces */
+  --void-950: #08070B;
+  --void-900: #12101A;
+  --void-850: #0D0C12;
+  --void-800: #1B1826;
+  --line: #2A2536;
+  --line-strong: #3B3350;
+  /* text on dark */
+  --bone-100: #F1ECE2;
+  --bone-300: #C7C0D4;
+  --bone-500: #A39CB4;
+  /* parchment */
+  --parchment-200: #EFE3C8;
+  --parchment-400: #D9C79F;
+  --ink-900: #1D1626;
+  --ink-700: #4B3B2A;
+  /* gold leaf frame */
+  --gold-400: #D4A64A;
+  --gold-500: #C9A24A;
+  --gold-800: #5E4A20;
+  /* meaning */
+  --lapis-300: #7D9BFF;   /* revealed ghosts, safe primary */
+  --lapis-100: #E6ECFF;   /* ghost text glow */
+  --vermilion-500: #E5452B; /* exorcise, danger primary */
+  /* severity chips (name + lightness + color, never color alone) */
+  --sev-revenant-bg: #E5452B;              --sev-revenant-fg: #1A0808;
+  --sev-wraith-bg: rgb(229 69 43 / 0.18);  --sev-wraith-fg: #F59A86;
+  --sev-shade-bg: rgb(212 166 74 / 0.16);  --sev-shade-fg: #E4C27A;
+  --sev-wisp-bg: rgb(154 163 199 / 0.16);  --sev-wisp-fg: #B3BBDB;
+  /* type (self-hosted in /public/fonts; no runtime font requests, guarantee G1) */
+  --font-display: 'Cormorant SC', Georgia, serif;
+  --font-body: 'Instrument Sans', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  /* space (4px scale) and shape */
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-16: 64px;
+  --radius-sm: 6px; --radius-md: 10px; --radius-lg: 12px; --radius-pill: 999px;
+  --gilded-frame: 0 0 0 1px var(--gold-500), 0 0 0 10px var(--void-900), 0 0 0 11px var(--gold-500), 0 0 0 13px var(--void-950), 0 0 0 14px var(--gold-800), 0 30px 80px rgb(0 0 0 / 0.6);
+  --glow-lapis: 0 0 30px rgb(125 155 255 / 0.30);
+  --glow-vermilion: 0 0 30px rgb(229 69 43 / 0.35);
+  --focus-ring: 0 0 0 3px var(--lapis-300);
+}
+
+html, body { margin: 0; background: var(--void-950); color: var(--bone-100); font-family: var(--font-body); }
+.shell { max-width: 1200px; margin: 0 auto; padding: var(--space-16) var(--space-6); text-align: center; }
+.display { font-family: var(--font-display); font-weight: 600; font-size: clamp(44px, 7vw, 76px); letter-spacing: 0.08em; margin: 0; }
+.lede { color: var(--bone-300); font-size: 20px; }
+:focus-visible { outline: none; box-shadow: var(--focus-ring); }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }

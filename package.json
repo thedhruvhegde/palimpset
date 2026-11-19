@@ -1,0 +1,33 @@
+{
+  "name": "palimpsest",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Scrape your files back to every hidden layer they carry, then exorcise them. Entirely in the browser.",
+  "license": "MIT",
+  "type": "module",
+  "workspaces": [
+    "packages/core",
+    "packages/mcp",
+    "packages/crew",
+    "apps/web"
+  ],
+  "scripts": {
+    "dev": "npm run dev -w apps/web",
+    "build": "npm run build --workspaces --if-present",
+    "test": "npm test --workspaces --if-present",
+    "test:paw": "npm run test:paw -w packages/core",
+    "test:e2e": "npm run test:e2e -w apps/web",
+    "typecheck": "tsc -b",
+    "fixtures": "node --experimental-strip-types scripts/make-fixtures.ts",
+    "palimpsest": "node packages/mcp/dist/cli.js"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "vitest": "5.1.0",
+    "fast-check": "4.10.2",
+    "vite": "8.3.5"
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "@palimpsest/mcp",
+  "version": "0.0.0",
+  "type": "module",
+  "license": "MIT",
+  "private": true,
+  "dependencies": { "@palimpsest/core": "*", "@modelcontextprotocol/sdk": "1.32.2", "zod": "4.6.7" }
+}
