@@ -1,0 +1,21 @@
+{
+  "enabled": true,
+  "name": "Haunted asset guard (dogfooding)",
+  "description": "Palimpsest scans any image/PDF/DOCX added to the repo outside the fixtures folder, so we never commit our own ghosts.",
+  "version": "1",
+  "when": {
+    "type": "fileCreated",
+    "patterns": [
+      "**/*.png",
+      "**/*.jpg",
+      "**/*.jpeg",
+      "**/*.heic",
+      "**/*.pdf",
+      "**/*.docx"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A binary document or image was added. If its path is inside fixtures/, do nothing. Otherwise call the palimpsest MCP tool inspect_file on it (or run `npm run palimpsest -- inspect <path>` if MCP is unavailable). If any ghost at severity shade or higher is present, warn me, list the ghost kinds (never the sensitive values), and offer to replace it with the exorcised version via exorcise_file."
+  }
+}

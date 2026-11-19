@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "Spec before code for new formats",
+  "description": "When a new extractor folder is created, scaffold its spec so every format is spec-driven.",
+  "version": "1",
+  "when": {
+    "type": "fileCreated",
+    "patterns": [
+      "packages/core/src/extractors/*/index.ts"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A new extractor folder was created. If there is no .kiro/specs/<format>-ghosts spec for it yet, create requirements.md (EARS acceptance criteria), design.md (with Correctness Properties mapped to Paw properties) and tasks.md, following the style of the existing image-ghosts spec and types.ts. Then add a Paw arbitrary stub for the format in packages/core/src/paw/."
+  }
+}

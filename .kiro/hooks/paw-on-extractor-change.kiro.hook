@@ -1,0 +1,17 @@
+{
+  "enabled": true,
+  "name": "Summon the Paw on extractor/exorcist changes",
+  "description": "Run the property-based adversary whenever an extractor or exorcist changes, and fix any counterexample it finds.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "packages/core/src/extractors/**/*.ts",
+      "packages/core/src/exorcists/**/*.ts"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "An extractor or exorcist changed. Run `npm run test:paw -w packages/core` (fast-check property suites, 200 runs). If a property fails, read the shrunk counterexample, save it to fixtures/paw-counterexamples/ as a regression fixture with a short README line describing the leak, then fix the code so the property passes. Report which properties ran, the seed, and the outcome."
+  }
+}

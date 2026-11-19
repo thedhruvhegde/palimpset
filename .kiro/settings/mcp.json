@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "palimpsest": {
+      "command": "node",
+      "args": ["packages/mcp/dist/server.js", "--root", "."],
+      "disabled": true,
+      "autoApprove": ["inspect_file"]
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "enabled": true,
+  "name": "Keep specs in sync with the ghost model",
+  "description": "When types.ts changes, update affected specs, the MCP schemas and the Paw manifests.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "packages/core/src/types.ts"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "packages/core/src/types.ts changed. Find every spec in .kiro/specs/ whose design.md references a changed type, update the signatures there, update the zod schemas in packages/mcp and the worker protocol, and update Paw manifests for any new GhostKind. List what you changed."
+  }
+}

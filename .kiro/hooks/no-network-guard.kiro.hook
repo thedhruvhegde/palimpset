@@ -1,0 +1,17 @@
+{
+  "enabled": true,
+  "name": "No-network guard (G1)",
+  "description": "Whenever web or core source changes, check it for network APIs that would break the local-only guarantee.",
+  "version": "1",
+  "when": {
+    "type": "fileEdited",
+    "patterns": [
+      "packages/core/src/**/*.ts",
+      "apps/web/src/**/*.ts"
+    ]
+  },
+  "then": {
+    "type": "askAgent",
+    "prompt": "A source file in packages/core or apps/web just changed. Read the threat-model steering doc. Check the changed file for any network capability: fetch, XMLHttpRequest, WebSocket, EventSource, navigator.sendBeacon, remote import(), <link>/<script> to a remote origin, or new dependencies that phone home. The ONLY allowed exception is apps/web/src/ui/opt-in-map.ts behind an explicit user click. If you find a violation, explain it and fix it. If clean, reply 'G1 clean' in one line."
+  }
+}
