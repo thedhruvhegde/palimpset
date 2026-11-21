@@ -71,6 +71,10 @@ packages/mcp    MCP server + Kiro Power
 packages/crew   Kiro Crew bot: scan repos for haunted files
 ```
 
+## Live site
+
+https://thedhruvhegde.github.io/palimpset/ (deployed from `main` by GitHub Actions; static only, there is no server by design)
+
 ## Run it
 
 ```bash
