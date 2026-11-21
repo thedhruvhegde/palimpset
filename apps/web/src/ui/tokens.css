@@ -1,51 +1,51 @@
-/* Illuminated Codex design tokens. Source: .kiro/steering/art-direction.md
+/* Afterimage design tokens. Source: .kiro/steering/art-direction.md
    and the design canvas https://claude.ai/artifact/JH8SvA8MKrSyeW62ZzcoHA */
 :root {
   /* surfaces */
-  --void-950: #08070B;
-  --void-900: #12101A;
-  --void-850: #0D0C12;
-  --void-800: #1B1826;
-  --line: #2A2536;
-  --line-strong: #3B3350;
-  /* text on dark */
-  --bone-100: #F1ECE2;
-  --bone-300: #C7C0D4;
-  --bone-500: #A39CB4;
-  /* parchment */
-  --parchment-200: #EFE3C8;
-  --parchment-400: #D9C79F;
-  --ink-900: #1D1626;
-  --ink-700: #4B3B2A;
-  /* gold leaf frame */
-  --gold-400: #D4A64A;
-  --gold-500: #C9A24A;
-  --gold-800: #5E4A20;
+  --bg: #0B0B0D;
+  --surface: #131316;
+  --surface-2: #1A1A1F;
+  --canvas: #0F0F12;          /* backdrop behind the file preview */
+  --border: #26262D;
+  --border-subtle: #1F1F24;
+  --border-strong: #34343D;
+  /* text */
+  --text-strong: #F5F5F7;
+  --text: #EDEDF0;
+  --muted: #A0A0AB;
+  --subtle: #7A7A85;
   /* meaning */
-  --lapis-300: #7D9BFF;   /* revealed ghosts, safe primary */
-  --lapis-100: #E6ECFF;   /* ghost text glow */
-  --vermilion-500: #E5452B; /* exorcise, danger primary */
-  /* severity chips (name + lightness + color, never color alone) */
-  --sev-revenant-bg: #E5452B;              --sev-revenant-fg: #1A0808;
-  --sev-wraith-bg: rgb(229 69 43 / 0.18);  --sev-wraith-fg: #F59A86;
-  --sev-shade-bg: rgb(212 166 74 / 0.16);  --sev-shade-fg: #E4C27A;
-  --sev-wisp-bg: rgb(154 163 199 / 0.16);  --sev-wisp-fg: #B3BBDB;
+  --spectral: #A594FF;        /* anything that was hidden; the stress-test action */
+  --spectral-text: #C4B8FF;
+  --spectral-glow: #E2DCFF;
+  --spectral-bg: rgb(165 148 255 / 0.08);
+  --danger: #FF6B5B;          /* remove ghosts, crop line, failures */
+  --danger-text: #FF8E80;
+  --on-danger: #160606;
+  --warn: #F2B34C;
+  --safe: #5BD69A;
+  /* severity badges: always a word plus a color (critical/high/medium/low = revenant/wraith/shade/wisp) */
+  --sev-critical-bg: #FF6B5B;              --sev-critical-fg: #160606;
+  --sev-high-bg: rgb(255 107 91 / 0.14);   --sev-high-fg: #FF8E80;
+  --sev-medium-bg: rgb(242 179 76 / 0.14); --sev-medium-fg: #F2B34C;
+  --sev-low-bg: rgb(142 155 181 / 0.14);   --sev-low-fg: #AEB8CC;
   /* type (self-hosted in /public/fonts; no runtime font requests, guarantee G1) */
-  --font-display: 'Cormorant SC', Georgia, serif;
-  --font-body: 'Instrument Sans', system-ui, sans-serif;
-  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+  --font-sans: 'Geist', system-ui, sans-serif;
+  --font-mono: 'Geist Mono', ui-monospace, monospace;
   /* space (4px scale) and shape */
-  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-16: 64px;
-  --radius-sm: 6px; --radius-md: 10px; --radius-lg: 12px; --radius-pill: 999px;
-  --gilded-frame: 0 0 0 1px var(--gold-500), 0 0 0 10px var(--void-900), 0 0 0 11px var(--gold-500), 0 0 0 13px var(--void-950), 0 0 0 14px var(--gold-800), 0 30px 80px rgb(0 0 0 / 0.6);
-  --glow-lapis: 0 0 30px rgb(125 155 255 / 0.30);
-  --glow-vermilion: 0 0 30px rgb(229 69 43 / 0.35);
-  --focus-ring: 0 0 0 3px var(--lapis-300);
+  --space-1: 4px; --space-2: 8px; --space-3: 12px; --space-4: 16px; --space-5: 20px; --space-6: 24px; --space-8: 32px; --space-12: 48px; --space-16: 64px;
+  --radius-sm: 6px; --radius-md: 10px; --radius-lg: 14px; --radius-xl: 16px; --radius-pill: 999px;
+  --shadow-lift: 0 30px 80px rgb(0 0 0 / 0.5);
+  --glow-spectral: 0 0 80px rgb(165 148 255 / 0.08);
+  /* the reveal treatment: the one spooky effect */
+  --reveal-bg: repeating-linear-gradient(0deg, rgb(165 148 255 / 0.10) 0 1px, transparent 1px 4px), linear-gradient(180deg, #1B1630, #120F22);
+  --reveal-text-glow: 0 0 12px rgb(165 148 255 / 0.8);
+  --focus-ring: 0 0 0 3px var(--spectral);
 }
 
-html, body { margin: 0; background: var(--void-950); color: var(--bone-100); font-family: var(--font-body); }
-.shell { max-width: 1200px; margin: 0 auto; padding: var(--space-16) var(--space-6); text-align: center; }
-.display { font-family: var(--font-display); font-weight: 600; font-size: clamp(44px, 7vw, 76px); letter-spacing: 0.08em; margin: 0; }
-.lede { color: var(--bone-300); font-size: 20px; }
+html, body { margin: 0; background: var(--bg); color: var(--text); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+.shell { max-width: 1160px; margin: 0 auto; padding: var(--space-16) var(--space-6); }
+.display { font-weight: 600; font-size: clamp(40px, 6vw, 60px); line-height: 1.04; letter-spacing: -0.035em; color: var(--text-strong); margin: 0; }
+.lede { color: var(--muted); font-size: 18px; line-height: 1.6; max-width: 520px; }
 :focus-visible { outline: none; box-shadow: var(--focus-ring); }
 @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }

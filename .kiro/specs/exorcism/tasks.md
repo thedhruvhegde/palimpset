@@ -94,6 +94,6 @@ Prerequisites: `ghost-model-and-ingest` tasks 1–11 (orchestrator, registry, di
   - _Requirements: 2.5_
 
 - [ ] 18. Web integration
-  - [ ] 18.1 In `apps/web`, add the Exorcise action: send the `exorcise` worker request with `priorId`, download with `cleanFileName` through a `Blob` URL (the original `File` is untouched), show the "0 ghosts found in output" teal check only for `clean`, and show the "Partly cleaned" state listing survivors for `residual`.
+  - [ ] 18.1 In `apps/web`, add the Exorcise action: send the `exorcise` worker request with `priorId`, download with `cleanFileName` through a `Blob` URL (the original `File` is untouched), show the "0 ghosts found in output" green check only for `clean`, and show the "Partly cleaned" state listing survivors for `residual`.
   - [ ] 18.2 Show HEIC as "could not exorcise", with a conditional "Convert to JPEG and exorcise" offer. Add Playwright tests for the clean, residual and failed states using gallery fixtures and the no-network assertion.
   - _Requirements: 1.8, 3.4, 15.1, 16.2, 16.3_

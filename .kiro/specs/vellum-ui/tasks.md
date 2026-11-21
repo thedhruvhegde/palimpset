@@ -12,7 +12,7 @@ Prerequisite: `packages/core` exports `inspect`, `exorcise` and `sniff` from `sr
     - _Requirements: 19.1, 19.2_
   - [ ] 2.2 Add WOFF2 files and OFL licenses to `public/fonts`, `src/ui/fonts.css` with `@font-face` + `font-display: swap`, preload the display and body regular faces; add a build assertion that `dist` contains no `fonts.googleapis.com` / `fonts.gstatic.com` and fonts total ≤ 400 KB.
     - _Requirements: 19.3, 19.4, 19.5, 22.4_
-  - [ ] 2.3 Base styles: crypt background, Instrument Sans body 16–21 px / 1.55, mono evidence class, 2 px ecto focus ring, 44 px minimum targets.
+  - [ ] 2.3 Base styles: crypt background, Geist body 16–21 px / 1.55, mono evidence class, 2 px ecto focus ring, 44 px minimum targets.
     - _Requirements: 19.5, 19.6_
 
 - [ ] 3. State, router and app shell
@@ -88,13 +88,13 @@ Prerequisite: `packages/core` exports `inspect`, `exorcise` and `sniff` from `sr
   - _Requirements: 11.6, 21.1, 21.2, 21.3, 21.4, 21.5_
 
 - [ ] 12. Exorcise action
-  - Implement the exorcise flow in `seance-view.ts`, `ui/vermilion-particles.ts` and `seance-ledger.burn()` (120 ms stagger, teal check, reduced-motion fade), failure recovery and the assertive completion announcement.
+  - Implement the exorcise flow in `seance-view.ts`, `ui/strike-fade.ts` and `seance-ledger.strike()` (120 ms stagger, green check, reduced-motion fade), failure recovery and the assertive completion announcement.
   - _Requirements: 13.1, 13.2, 13.3, 16.3, 18.5_
 
 - [ ] 13. Exorcism result screen
   - [ ] 13.1 Implement `afterStatus` and `cleanFileName` with P10 tests; `ui/before-after.ts` with the four statuses as text plus colour.
     - _Requirements: 14.2, 14.3, 19.7_
-  - [ ] 13.2 Implement `ui/verification-panel.ts` (output ghost count, survivors in vermilion, quick Paw run of 200 runs / 4000 ms for the output kind) and `paw` messages in the worker (lazy `fast-check` chunk).
+  - [ ] 13.2 Implement `ui/verification-panel.ts` (output ghost count, survivors in --danger, quick Paw run of 200 runs / 4000 ms for the output kind) and `paw` messages in the worker (lazy `fast-check` chunk).
     - _Requirements: 14.4, 14.5, 15.7_
   - [ ] 13.3 Implement `util/download.ts` and `ui/download-button.ts`; compose `ui/exorcism-view.ts` (headline, warnings, navigation links).
     - _Requirements: 14.1, 14.6, 14.7, 14.8_

@@ -30,7 +30,7 @@ Terms: **vellum** is the paper surface showing the file; **ghost layer** is the 
 
 1. The Landing screen SHALL show a vellum drop zone with the heading "Lay your file upon the vellum", the line "Drop a photo, screenshot, PDF or Word document, or choose one", and the mono line "JPEG · PNG · HEIC · PDF · DOCX, up to 50 MB".
 2. The drop zone SHALL be a `<label>` wrapping a visually hidden `<input type="file">`, so that click, Enter and Space open the file chooser and the control is reachable with Tab.
-3. WHEN a file is dragged over the drop zone THEN the system SHALL show a hover state (lapis-300 inner glow) and SHALL call `preventDefault` on `dragover` and `drop` at the document level so the browser never navigates to the file.
+3. WHEN a file is dragged over the drop zone THEN the system SHALL show a hover state (--spectral inner glow) and SHALL call `preventDefault` on `dragover` and `drop` at the document level so the browser never navigates to the file.
 4. WHEN more than one file is dropped THEN the system SHALL use the first file and announce "Only one file at a time. Using <name>." via the polite live region.
 5. IF the file is larger than 52,428,800 bytes THEN the system SHALL NOT read it and SHALL show "This file is larger than 50 MB. Palimpsest checks files up to 50 MB."
 6. WHEN a file is accepted THEN the system SHALL read it with `File.arrayBuffer()`, keep the resulting `Uint8Array` as the immutable original, navigate to `#/seance` and start inspection (Requirement 5).
@@ -89,9 +89,9 @@ Terms: **vellum** is the paper surface showing the file; **ghost layer** is the 
    4. IF the ghost is `embedded-thumbnail` with a preview and no placement THEN the region SHALL be the visible image's rect, with the preview fitted inside it.
    5. IF the location is `nested` THEN the rules SHALL be applied to its `container`.
    6. Otherwise (`byte-range`, `chunk`, `pdf-revision`, `zip-entry`) the region SHALL be a card slot in the ghost band.
-6. WHEN any region extends beyond the visible content (a recovered crop) THEN the vellum SHALL grow to the union of all regions and SHALL draw a dashed vermilion "crop line" with a "crop line" tag at the visible content's edge.
+6. WHEN any region extends beyond the visible content (a recovered crop) THEN the vellum SHALL grow to the union of all regions and SHALL draw a dashed --danger (coral) "crop line" with a "crop line" tag at the visible content's edge.
 7. The ghost band SHALL lay out card slots in rows sorted by `SEVERITY_ORDER` then `id`, with `max(1, floor(bandWidthCss / 280))` columns.
-8. The ghost layer SHALL draw: preview pixels for ghosts with a preview; for `pdf-region` ghosts without a preview, `evidence.summary` set in IBM Plex Mono fitted into the rect; for band slots, a card with the ghost title and `evidence.summary`.
+8. The ghost layer SHALL draw: preview pixels for ghosts with a preview; for `pdf-region` ghosts without a preview, `evidence.summary` set in Geist Mono fitted into the rect; for band slots, a card with the ghost title and `evidence.summary`.
 
 ### Requirement 7: Scrape mask
 
@@ -114,9 +114,9 @@ Terms: **vellum** is the paper surface showing the file; **ghost layer** is the 
 #### Acceptance Criteria
 
 1. The composite pass SHALL output, per fragment, a mix of the vellum layer (paper texture plus the rendered original) and the ghost layer, weighted by the scraped mask value after edge noise.
-2. The mask edge SHALL be perturbed by a 4-octave value-noise field so that edges look like ink bleed, and the transition band SHALL be darkened toward `--ink-900`.
-3. Revealed ghost-layer pixels SHALL be tinted toward `--lapis-100` over a dark teal base, so that revealed content reads as "this was hidden" (lapis-300 meaning).
-4. An lapis glow in `--lapis-300` SHALL follow the most recent stroke positions and fade to zero within 800 ms of the last movement.
+2. The mask edge SHALL be perturbed by a 4-octave value-noise field so that edges look like ink bleed, and the transition band SHALL be darkened toward `--text`.
+3. Revealed ghost-layer pixels SHALL be tinted toward `--spectral-glow` over a dark teal base, so that revealed content reads as "this was hidden" (--spectral meaning).
+4. An violet glow in `--spectral` SHALL follow the most recent stroke positions and fade to zero within 800 ms of the last movement.
 5. WHEN "Show original only" is on THEN the composite SHALL show only the vellum layer, without clearing the mask; turning it off SHALL restore the scraped state.
 6. WHEN "Reveal all layers" is activated THEN the mask SHALL animate to fully scraped over 600 ms (instantly under reduced motion).
 7. WHEN a revealed ghost's severity is `revenant` or `wraith` THEN its region SHALL bleed up over 600 ms (ghost-layer opacity ramp within the region) before its ledger card slides in.
@@ -153,12 +153,12 @@ Terms: **vellum** is the paper surface showing the file; **ghost layer** is the 
 #### Acceptance Criteria
 
 1. The Séance screen SHALL show a "Séance Ledger" panel with the total ghost count and one card per revealed ghost, ordered by `SEVERITY_ORDER` then reveal order.
-2. Each card SHALL show the ghost `title`, a severity chip, `evidence.summary` and every `evidence.fields` entry in IBM Plex Mono, the ghost `explanation`, and a source line derived from `location` (for example "PNG chunk tEXt · bytes 33–140", "PDF page 2", "word/document.xml").
-3. The severity chip SHALL show the severity name as text and use the art-direction chip colors (revenant solid vermilion on #1A0808, wraith vermilion 18% tint with #F59A86, shade gold 16% tint with #E4C27A, wisp #9AA3C7 16% tint with #B3BBDB).
+2. Each card SHALL show the ghost `title`, a severity chip, `evidence.summary` and every `evidence.fields` entry in Geist Mono, the ghost `explanation`, and a source line derived from `location` (for example "PNG chunk tEXt · bytes 33–140", "PDF page 2", "word/document.xml").
+3. The severity chip SHALL show the severity name as text and use the art-direction chip colors (revenant solid coral on #160606, wraith coral 18% tint with #FF8E80, shade gold 16% tint with #F2B34C, wisp #8E9BB5 16% tint with #AEB8CC).
 4. IF a ghost's `confidence` is below 0.6 THEN its card SHALL be labeled "Possible ghost".
 5. WHILE some ghosts are unrevealed the ledger SHALL show one muted card "<k> more ghosts" with "Keep scraping, or use Reveal all layers."
 6. WHEN a GPS ghost (`kind: 'gps-location'`) card is shown THEN it SHALL show coordinates and, if present, the offline place name from `evidence.fields`, plus the button "Show on map (sends coordinates to OpenStreetMap tiles)" (Requirement 21).
-7. The ledger SHALL end with the primary vermilion button "Exorcise all <M> ghosts" and the note "Runs locally. Your original is never modified."; the button SHALL be enabled whether or not all ghosts are revealed.
+7. The ledger SHALL end with the primary coral button "Exorcise all <M> ghosts" and the note "Runs locally. Your original is never modified."; the button SHALL be enabled whether or not all ghosts are revealed.
 8. Evidence strings SHALL be inserted as text (`textContent`), never as HTML.
 
 ### Requirement 12: What we can't see, and warnings
@@ -177,7 +177,7 @@ Terms: **vellum** is the paper surface showing the file; **ghost layer** is the 
 #### Acceptance Criteria
 
 1. WHEN "Exorcise all <M> ghosts" is activated THEN the system SHALL call `exorcise` in the worker on a copy of the original bytes with default `ExorciseOptions`, and disable the button with the label "Exorcising…".
-2. WHILE exorcism runs the ledger cards SHALL burn away one by one (120 ms stagger) with vermilion particles, then show silence and a teal check, then navigate to `#/exorcism`.
+2. WHILE exorcism runs the ledger cards SHALL burn away one by one (120 ms stagger) with coral particles, then show silence and a green check, then navigate to `#/exorcism`.
 3. IF exorcism rejects or the worker reports an error THEN the system SHALL keep the user on the séance, restore the cards and show "The exorcism failed: <message>. Your original is unchanged."
 4. After exorcism the system SHALL assert in development builds that the original `Uint8Array` is byte-equal to its pre-exorcism copy (G2) and log an error if not.
 
@@ -188,10 +188,10 @@ Terms: **vellum** is the paper surface showing the file; **ghost layer** is the 
 #### Acceptance Criteria
 
 1. The Exorcism screen SHALL show "Exorcism complete" and the headline "<B> ghosts banished", where B is the sum of `Exorcism.banished[].count`.
-2. The screen SHALL show a "Before" list (one row per original ghost: title and a short mono value) and an "After" list with one row per original ghost and exactly one status: "banished" (ecto check) IF no ghost of that kind is in `verification.ghosts` and the kind appears in `banished`; "survived" (vermilion) IF a ghost of that kind is in `verification.ghosts`; "could not check" IF the kind is in `verification.unchecked`; "not removed" otherwise.
+2. The screen SHALL show a "Before" list (one row per original ghost: title and a short mono value) and an "After" list with one row per original ghost and exactly one status: "banished" (ecto check) IF no ghost of that kind is in `verification.ghosts` and the kind appears in `banished`; "survived" (coral) IF a ghost of that kind is in `verification.ghosts`; "could not check" IF the kind is in `verification.unchecked`; "not removed" otherwise.
 3. The header of each list SHALL show the file name and size in mono; the clean file name SHALL be `<stem>.clean.<ext>`, with `<ext>` derived from `verification.kind`.
 4. The screen SHALL show the panel "The Paw tried to break this exorcism" with the stat "<verification.ghosts.length> ghosts found in output" and the stat "<runs> cursed files tried" from a time-boxed Paw run (Requirement 15.7) for the same `FileKind`.
-5. WHEN `verification.ghosts` contains any ghost THEN the panel SHALL say "<n> ghosts survived" in vermilion and list them; it SHALL NOT say "0".
+5. WHEN `verification.ghosts` contains any ghost THEN the panel SHALL say "<n> ghosts survived" in coral and list them; it SHALL NOT say "0".
 6. The primary button "Download clean file" SHALL save `Exorcism.output` using a `Blob`, an object URL and an `<a download>` click, then revoke the URL; no network request SHALL occur.
 7. The screen SHALL offer "Watch the Paw's attempts" (to `#/paw`) and "Exorcise another file" (to `#/`, discarding state per Requirement 1.4).
 8. `Exorcism.warnings` SHALL be listed under the lists when present.
@@ -219,7 +219,7 @@ Terms: **vellum** is the paper surface showing the file; **ghost layer** is the 
 
 1. WHEN `prefers-reduced-motion: reduce` matches, OR WebGL2 is unavailable, OR the WebGL context is lost THEN the system SHALL use the fallback vellum: the original drawn in a DOM layer with ghost regions as absolutely positioned elements.
 2. In the fallback, pointer scraping and keyboard scraping SHALL reveal a ghost when the pointer path or keyboard cursor touches cells covering more than 35% of its region (same coverage function as Requirement 9), and the region SHALL crossfade in over 200 ms (no shader, no noise, no glow).
-3. Under reduced motion the system SHALL disable vermilion particles, finger animations and the 600 ms bleed-up, replacing them with opacity changes of at most 200 ms.
+3. Under reduced motion the system SHALL disable coral particles, finger animations and the 600 ms bleed-up, replacing them with opacity changes of at most 200 ms.
 4. WHEN the WebGL context is lost mid-séance THEN the revealed set SHALL be preserved in the fallback.
 5. The header SHALL offer a "Motion: system / reduced" override stored in `palimpsest.motion-override`.
 
@@ -229,7 +229,7 @@ Terms: **vellum** is the paper surface showing the file; **ghost layer** is the 
 
 #### Acceptance Criteria
 
-1. The vellum SHALL be focusable with Tab and SHALL show an lapis-300 focus ring and a visible scrape cursor cell.
+1. The vellum SHALL be focusable with Tab and SHALL show an --spectral focus ring and a visible scrape cursor cell.
 2. The system SHALL divide the vellum content (including the ghost band) into a 12 × 8 grid; the cursor SHALL start at column 1, row 1.
 3. WHEN an arrow key is pressed THEN the cursor SHALL move one cell in that direction (clamped at edges) and the destination cell SHALL be fully scraped.
 4. WHEN Shift plus an arrow key is pressed THEN the cursor SHALL move without scraping.
@@ -257,12 +257,12 @@ Terms: **vellum** is the paper surface showing the file; **ghost layer** is the 
 
 #### Acceptance Criteria
 
-1. `apps/web/src/ui/tokens.css` SHALL define on `:root` exactly the art-direction tokens with the specified hex values: `--void-950` #08070B, `--void-900` #12101A, `--void-800` #1B1826, `--line` #2A2536, `--bone-100` #F1ECE2, `--bone-300` #C7C0D4, `--bone-500` #A39CB4, `--parchment-200` #EFE3C8, `--parchment-400` #D9C79F, `--gold-500` #C9A24A, `--ink-900` #1D1626, `--lapis-300` #7D9BFF, `--lapis-100` #E6ECFF, `--vermilion-500` #E5452B, `--gold-400` #D4A64A.
+1. `apps/web/src/ui/tokens.css` SHALL define on `:root` exactly the art-direction tokens with the specified hex values: `--bg` #0B0B0D, `--surface` #131316, `--surface-2` #1A1A1F, `--line` #2A2536, `--text` #EDEDF0, `--muted` #A0A0AB, `--subtle` #7A7A85, `--canvas` #0F0F12, `--canvas` #D9C79F, `--border-strong` #C9A24A, `--text` #1D1626, `--spectral` #A594FF, `--spectral-glow` #E2DCFF, `--danger` #FF6B5B, `--warn` #F2B34C.
 2. A unit test SHALL parse `tokens.css` and the art-direction steering table and fail if any token is missing or differs.
-3. The system SHALL self-host Cormorant SC (400), Instrument Sans (400, 400 italic, 500, 600) and IBM Plex Mono (400, 600) as WOFF2 in `apps/web/public/fonts` with their OFL license files, declared with `@font-face` and `font-display: swap`.
+3. The system SHALL self-host Geist (400), Geist (400, 400 italic, 500, 600) and Geist Mono (400, 600) as WOFF2 in `apps/web/public/fonts` with their OFL license files, declared with `@font-face` and `font-display: swap`.
 4. The built app SHALL contain no reference to `fonts.googleapis.com` or `fonts.gstatic.com`.
-5. Body text SHALL be Instrument Sans 16–21 px with line-height 1.55; every concrete value (bytes, coordinates, names, offsets) SHALL be set in IBM Plex Mono 12–15 px; headings and hero numbers SHALL use Cormorant SC.
-6. All text SHALL meet a 4.5:1 contrast ratio against its background; focus rings SHALL be 2 px `--lapis-300`; interactive targets SHALL be at least 44 × 44 px.
+5. Body text SHALL be Geist 16–21 px with line-height 1.55; every concrete value (bytes, coordinates, names, offsets) SHALL be set in Geist Mono 12–15 px; headings and hero numbers SHALL use Geist.
+6. All text SHALL meet a 4.5:1 contrast ratio against its background; focus rings SHALL be 2 px `--spectral`; interactive targets SHALL be at least 44 × 44 px.
 7. Severity SHALL never be conveyed by color alone: every chip and status SHALL include the severity or status name as text.
 
 ### Requirement 20: Opt-in procedural sound
@@ -274,7 +274,7 @@ Terms: **vellum** is the paper surface showing the file; **ghost layer** is the 
 1. The header SHALL show a sound toggle button, off by default, labeled "Sound off" / "Sound on" with `aria-pressed`.
 2. The system SHALL NOT create an `AudioContext` until the user turns sound on.
 3. WHILE sound is on, WHEN a ghost is revealed THEN the system SHALL play a procedurally synthesized whisper (filtered noise with gliding formants, at most 1 s), pitched by severity (lower for revenant).
-4. WHILE sound is on, WHEN exorcism runs THEN the system SHALL play a rising synthesized choir that cuts to silence (10 ms release) when the teal check appears.
+4. WHILE sound is on, WHEN exorcism runs THEN the system SHALL play a rising synthesized choir that cuts to silence (10 ms release) when the green check appears.
 5. The system SHALL use no audio files and no network for sound, SHALL cap master gain at −12 dBFS, and SHALL suspend the `AudioContext` when the document is hidden.
 
 ### Requirement 21: Opt-in map

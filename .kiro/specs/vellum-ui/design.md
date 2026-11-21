@@ -4,7 +4,7 @@
 
 `apps/web` is a static Vite app in vanilla TypeScript. The main thread owns the DOM, the WebGL2 vellum and a small state store; a module Web Worker owns every call into `packages/core` (`inspect`, `exorcise`, the Paw). The four screens of the design canvas (Landing, Séance, Exorcism, The Paw) are views mounted by a hash router into one app shell.
 
-The centrepiece is the **scrape pipeline**: pointer or keyboard strokes stamp a soft brush into an R8 mask texture; a composite pass mixes the vellum layer (paper plus the rendered original) with the ghost layer (every ghost's visual, placed by its `GhostLocation`) through that mask, with ink-bleed edge noise and an lapis glow; an asynchronous readback of a downsampled mask feeds a pure coverage function that fires a `reveal` event once a ghost region is more than 35% scraped. Revealed ghosts go into the Séance Ledger and the aria-live announcer, so the shader is never the only way to learn about a ghost.
+The centrepiece is the **scrape pipeline**: pointer or keyboard strokes stamp a soft brush into an R8 mask texture; a composite pass mixes the vellum layer (paper plus the rendered original) with the ghost layer (every ghost's visual, placed by its `GhostLocation`) through that mask, with ink-bleed edge noise and the violet reveal glow (scan lines plus --spectral glow); an asynchronous readback of a downsampled mask feeds a pure coverage function that fires a `reveal` event once a ghost region is more than 35% scraped. Revealed ghosts go into the Séance Ledger and the aria-live announcer, so the shader is never the only way to learn about a ghost.
 
 Design decisions:
 
@@ -66,7 +66,7 @@ apps/web/
 | `ghost-card.ts` | Séance, Exorcism | one ledger card |
 | `severity-chip.ts` | all | chip with name text and art-direction colours |
 | `unseen-panel.ts` | Séance | "What we can't see": `unchecked`, warnings, out-of-scope list |
-| `vermilion-particles.ts` | Séance | Canvas2D particle burst behind burning cards |
+| `strike-fade.ts` | Séance | strike-through and fade of removed finding cards |
 | `opt-in-map.ts` | Séance | the only module allowed to cause a foreign request (OSM tiles) |
 | `exorcism-view.ts` | Exorcism | headline, composes the three blocks below |
 | `before-after.ts` | Exorcism | Before list, After list with per-ghost status |
@@ -239,7 +239,7 @@ export function renderOriginal(kind: FileKind, bytes: Uint8Array, maxSide: numbe
   worker: Pick<WorkerClient, 'docxText'>): Promise<OriginalSurface>;
 ```
 
-PDF pages are drawn with `pdfjs-dist` (dynamic import; its own worker loaded from a same-origin `?url` asset) into `OffscreenCanvas` at a scale fitting `maxSide`, and the viewport transform from `page.getViewport({ scale })` is kept per page. DOCX visible text is produced in the worker, where `jszip` is already loaded for inspection: `renderOriginal` sends a `docx-text` request and lays the returned paragraphs out with Canvas2D in Instrument Sans on a vellum page (deleted runs excluded, inserted runs included, as Word would show them with changes accepted). The 4096 px cap (Requirement 22.5) is `maxSide`.
+PDF pages are drawn with `pdfjs-dist` (dynamic import; its own worker loaded from a same-origin `?url` asset) into `OffscreenCanvas` at a scale fitting `maxSide`, and the viewport transform from `page.getViewport({ scale })` is kept per page. DOCX visible text is produced in the worker, where `jszip` is already loaded for inspection: `renderOriginal` sends a `docx-text` request and lays the returned paragraphs out with Canvas2D in Geist on a vellum page (deleted runs excluded, inserted runs included, as Word would show them with changes accepted). The 4096 px cap (Requirement 22.5) is `maxSide`.
 
 ### Ghost layout (`scrape/layout.ts`)
 
@@ -271,7 +271,7 @@ export function paintGhostLayer(layout: VellumLayout, ghosts: readonly Ghost[],
   scale: number, maxSide: number): Promise<OffscreenCanvas>;
 ```
 
-Base fill `#0E2623` (dark teal). Each region is painted into the same canvas: previews are decoded with `createImageBitmap(new Blob([bytes], { type: mime }))` and drawn into the rect; `pdf-region` ghosts without preview get `evidence.summary` in IBM Plex Mono, size reduced until it fits; band slots get a card (title in Instrument Sans 600, summary in mono, `--lapis-100` text). Painting waits for `document.fonts.load()` of both faces. The canvas is uploaded once to an RGBA8 texture.
+Base fill `#0E2623` (dark teal). Each region is painted into the same canvas: previews are decoded with `createImageBitmap(new Blob([bytes], { type: mime }))` and drawn into the rect; `pdf-region` ghosts without preview get `evidence.summary` in Geist Mono, size reduced until it fits; band slots get a card (title in Geist 600, summary in mono, `--spectral-glow` text). Painting waits for `document.fonts.load()` of both faces. The canvas is uploaded once to an RGBA8 texture.
 
 ### WebGL2 vellum (`ui/vellum-canvas.ts`, `scrape/gl.ts`)
 
@@ -313,7 +313,7 @@ Stamps are drawn as instanced quads (`stamp.vert` places a unit quad at `(x, y)`
 
 **Downsample pass.** `downsample.frag` renders `covTex` by averaging a 4 × 4 tap pattern of `maskTex` per output texel (LINEAR sampling gives 16 × 4 = effectively 64 mask texels per tap set), writing the mean into `.r`. Readback: `readPixels(0, 0, gridW, gridH, RGBA, UNSIGNED_BYTE, 0)` into a `PIXEL_PACK_BUFFER`, `fenceSync`, then on a later frame where `clientWaitSync(fence, 0, 0)` is not `TIMEOUT_EXPIRED`, `getBufferSubData` into a reused `Uint8Array`. Readback is scheduled only when stamps were drawn since the last one, at most every 100 ms.
 
-**Composite pass.** `composite.frag` uniforms: `u_vellum`, `u_ghost`, `u_mask`, `u_bleed`, `u_region`, `u_glow[16]` (`vec3`: x, y, age ms), `u_revealAll` (0..1), `u_showOriginal` (0|1), `u_time`, `u_inkColor` (#1D1626), `u_ectoGlow` (#7D9BFF), `u_ectoText` (#E6ECFF). Per fragment:
+**Composite pass.** `composite.frag` uniforms: `u_vellum`, `u_ghost`, `u_mask`, `u_bleed`, `u_region`, `u_glow[16]` (`vec3`: x, y, age ms), `u_revealAll` (0..1), `u_showOriginal` (0|1), `u_time`, `u_inkColor` (#1D1626), `u_ectoGlow` (#A594FF), `u_ectoText` (#E2DCFF). Per fragment:
 
 1. `m = max(texture(u_mask).r, u_revealAll)`.
 2. Ink-bleed edge: `n = fbm4(uv × 18.0 + vec2(0, u_time × 0.00002))` (value noise, 4 octaves, gain 0.5, defined in `noise.glsl`); `e = 4m(1 − m)` (1 at the edge); `m' = smoothstep(0.42, 0.58, m + (n − 0.5) × 0.45 × e)`.
@@ -362,7 +362,7 @@ export function sourceLine(loc: GhostLocation, kind: FileKind): string;   // uti
 export function createGhostCard(): Component<{ ghost: Ghost; revealed: boolean; onMap?: () => void }>;
 export function createSeverityChip(): Component<{ severity: Severity }>;
 export function createSeanceLedger(onExorcise: () => void):
-  Component<{ ghosts: readonly Ghost[]; revealed: ReadonlySet<string>; exorcising: boolean }> & { burn(): Promise<void> };
+  Component<{ ghosts: readonly Ghost[]; revealed: ReadonlySet<string>; exorcising: boolean }> & { strike(): Promise<void> };
 
 export interface Announcer {
   ghostsRevealed(ghosts: readonly Ghost[]): void;       // batches within 300 ms
@@ -372,7 +372,7 @@ export interface Announcer {
 export function createAnnouncer(root: HTMLElement): Announcer;
 ```
 
-Chip colours (from art direction): revenant `background: var(--vermilion-500); color: #1A0808`; wraith `rgba(226,88,43,0.18)` / `#F59A86`; shade `rgba(232,176,75,0.16)` / `#E4C27A`; wisp `rgba(143,184,177,0.16)` / `#B3BBDB`.
+Chip colours (from art direction): revenant `background: var(--danger); color: #160606`; wraith `rgba(226,88,43,0.18)` / `#FF8E80`; shade `rgba(232,176,75,0.16)` / `#F2B34C`; wisp `rgba(143,184,177,0.16)` / `#AEB8CC`.
 
 ### Exorcism and the Paw views
 

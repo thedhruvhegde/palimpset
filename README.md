@@ -2,10 +2,10 @@
 
 # PALIMPSEST
 
-### read the ghosts in your files
+### see what your files are still hiding
 
-Drop a photo, screenshot, PDF or Word document onto cursed parchment.<br>
-Scrape it back to every hidden layer it carries. Then exorcise them.<br>
+Drop a photo, screenshot, PDF or Word document.<br>
+See every hidden layer it carries, then get a clean copy with proof.<br>
 **Everything happens inside your browser. Nothing leaves the page.**
 
 *Kiroween 2026 · Costume Contest · built spec-first with Kiro*
@@ -66,7 +66,7 @@ TypeScript (strict) · npm workspaces · Vite · WebGL2 · Web Workers · exifr 
 
 ```
 packages/core   ghost model, extractors, exorcists, the Paw (runs in browser and Node)
-apps/web        the parchment: drop, scrape, ledger, exorcise, summon the Paw
+apps/web        the web app: drop, reveal, ledger, exorcise, summon the Paw
 packages/mcp    MCP server + Kiro Power
 packages/crew   Kiro Crew bot: scan repos for haunted files
 ```
@@ -83,7 +83,7 @@ npm run build
 
 ## Design
 
-The Illuminated Codex design system: [`docs/DESIGN.md`](docs/DESIGN.md).
+The Afterimage design system: [`docs/DESIGN.md`](docs/DESIGN.md).
 
 ## Credits
 

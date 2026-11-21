@@ -1,30 +1,29 @@
-# Design: Illuminated Codex
+# Design: Afterimage
 
 **Design canvas (5 screens):** https://claude.ai/artifact/JH8SvA8MKrSyeW62ZzcoHA
 
-1. **Landing:** "Lay your file upon the parchment" drop zone, privacy promise, Haunted Gallery.
-2. **Séance:** the file on parchment, scrape toolbar, the recovered region glowing below the crop line, Séance Ledger.
-3. **Exorcism:** before/after ghost lists, the Paw's verification, download.
-4. **The Paw:** five fingers (one per property), a shrunk counterexample trace and what it caught.
-5. **Design system:** palette, type, severity scale, components.
+1. **Landing:** "See what your files are still hiding", the drop zone, a 3-step "How it works" (Reveal, Clean copy, Verify) and haunted sample files.
+2. **Findings:** the file preview (a marketplace listing screenshot), a coral crop line with the recovered pickup address glowing below it, and the list of ghosts with severity badges.
+3. **Clean copy:** "All 7 ghosts removed", verification stats (0 ghosts left, 0 network requests, stress-test runs) and what was removed.
+4. **The Paw:** the stress test as a checklist of five promises, plus the smallest failing example it found.
+5. **Design system:** palette, type, severity, components and the reveal treatment.
 
 Tokens live in `apps/web/src/ui/tokens.css`; rules and rationale live in `.kiro/steering/art-direction.md` (loaded by Kiro whenever web files are open).
 
 ## Palette
 | Role | Token | Hex |
 |---|---|---|
-| App background | `--void-950` | #08070B |
-| Raised panel | `--void-900` | #12101A |
-| Text on dark | `--bone-100` / `--bone-300` / `--bone-500` | #F1ECE2 / #C7C0D4 / #A39CB4 |
-| File surface | `--parchment-200` | #EFE3C8 |
-| Text on parchment | `--ink-900` | #1D1626 |
-| Gilded frame | `--gold-500` | #C9A24A |
-| Revealed / safe action | `--lapis-300` | #7D9BFF |
-| Danger / exorcise | `--vermilion-500` | #E5452B |
-| Warning / shade | `--gold-400` | #D4A64A |
+| Background | `--bg` | #0B0B0D |
+| Cards | `--surface` | #131316 |
+| Borders | `--border` | #26262D |
+| Text | `--text` / `--muted` / `--subtle` | #EDEDF0 / #A0A0AB / #7A7A85 |
+| Hidden / revealed | `--spectral` | #A594FF |
+| Remove / failed | `--danger` | #FF6B5B |
+| Medium severity | `--warn` | #F2B34C |
+| Safe / verified | `--safe` | #5BD69A |
 
 ## Type
-Cormorant SC (display) · Instrument Sans (body) · IBM Plex Mono (evidence). Self-hosted, because a Google Fonts request would break the no-network guarantee.
+Geist and Geist Mono, self-hosted, because a Google Fonts request would break the no-network guarantee.
 
 ## Severity
-Revenant (identity or location exposed) > Wraith (directly identifying) > Shade (indirectly identifying) > Wisp (low risk alone). Each severity is shown as a named chip, not by color alone.
+Critical > High > Medium > Low, always shown as a word plus a color. In code these are `revenant`, `wraith`, `shade` and `wisp`.

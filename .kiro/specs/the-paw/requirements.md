@@ -192,12 +192,12 @@ Terms:
 #### Acceptance Criteria
 
 1. The system SHALL show five fingers, each labelled with its name, guarantee and properties (for example "Index · Detection completeness · P1, P6"). Each finger has a state of `waiting`, `twitching` (running), `held` or `curled`, shown as text as well as by shape and color (never color alone).
-2. WHEN any property on a finger fails THEN that finger SHALL curl, in vermilion-500, with a 600 ms motion. WHEN all its properties pass THEN it SHALL stay straight with an lapis-300 outline.
+2. WHEN any property on a finger fails THEN that finger SHALL curl, that finger's row in the checklist SHALL show a "Failed" badge in --danger, and passing rows SHALL show a "Passing" badge in --safe. (The visual design shows the five fingers as a five-row checklist; "finger" remains the internal name.)
 3. For each curled finger, the system SHALL show a counterexample card: property, guarantee, format, case seed, path, shrink count, failure detail, and the planted manifest as a mono table.
 4. The card SHALL offer: "Hold a séance on this curse" (opens the normal séance view on the shrunk bytes, in memory); "Copy replay command"; and "Download counterexample" (a local Blob URL, no network).
 5. The view SHALL list committed counterexamples from `fixtures/paw-counterexamples/` under "Past catches", loaded lazily at build time, so that the demo can show a real catch from development.
 6. WHERE `prefers-reduced-motion` is set, the system SHALL change finger states without motion. Progress SHALL be announced through an `aria-live="polite"` region at most once per second.
-7. Every control SHALL be keyboard-reachable, with lapis-300 focus rings and touch targets ≥ 44 px.
+7. Every control SHALL be keyboard-reachable, with --spectral focus rings and touch targets ≥ 44 px.
 
 ### Requirement 15: Tempt the Paw (demo mode)
 
